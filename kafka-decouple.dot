@@ -1,0 +1,32 @@
+digraph kafka_decouple {
+  rankdir=LR
+  overlap=false
+  user [shape=circle label="user"]
+  restApiServiceA [shape=box label="Rest Api \nService A"]
+  kafkaTopicA [shape=cds label="Kafka Topic A"]
+  fileLogA [shape=cylinder label="File Log"]
+  dbStorageA [shape=cylinder label="DB Storage"]
+  processUnitA [shape=box label="Process Unit A"]
+  kafkaTopicB [shape=cds label="Kafka Topic B"]
+  fileLogB [shape=cylinder label="File Log"]
+  dbStorageB [shape=cylinder label="DB Storage"]
+  processUnitB [shape=box label="Process Unit B"]
+  response [shape=circle label="..."]
+  processUnitX [shape=box label="Process Unit X"]
+  kafkaTopicX [shape=cds label="Kafka Topic X"]
+  restApiServiceResponseLoop [shape=box label="Rest Api \nService Response Loop"]
+
+  user -> restApiServiceA [color="green"]
+  restApiServiceA -> kafkaTopicA [color="blue"]
+  kafkaTopicA -> {fileLogA, dbStorageA, processUnitA} [color="green"]
+  processUnitA -> kafkaTopicB [color="blue"]
+  kafkaTopicB -> {fileLogB, dbStorageB, processUnitB} [color="green"]
+  processUnitB -> response [color="blue"]
+  response -> processUnitX [color="green"]
+  processUnitX -> kafkaTopicX [color="blue"]
+  kafkaTopicX -> restApiServiceResponseLoop [color="green"]
+  restApiServiceResponseLoop -> user [color="blue"]
+  { rank="same"; processUnitX; processUnitB; }
+  { rank="same"; kafkaTopicX; kafkaTopicB; }
+  { rank="same"; restApiServiceResponseLoop; restApiServiceA; }
+}

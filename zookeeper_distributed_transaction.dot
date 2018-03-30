@@ -1,0 +1,30 @@
+digraph zookeeper_distributed_transaction {
+  rankdir=LR
+  overlap=false
+  invisNodeMin [style="invis" group=g0]
+  invisNodeMax [style="invis" group=g0]
+  zookeeperStatus [shape=cylinder label="ZooKeeper\nStatus" group=g0]
+  zookeeperState [shape=cylinder label="ZooKeeper\nState" group=g0]
+
+  beginDistributed [shape=box label="Begin\nDistributed\nTransaction" group=g1]
+  processUnitATransaction [shape=box label="Process Unit A\nTransaction" group=g1]
+  processUnitBTransaction [shape=box label="Process Unit B\nTransaction" group=g1]
+  processUnitCTransaction [shape=box label="Process Unit C\nTransaction" rank="max" group=g1]
+
+  { rank="min"; invisNodeMin; beginDistributed; }
+  { rank="max"; invisNodeMax; processUnitCTransaction; }
+
+  { rank="same"; processUnitATransaction; zookeeperStatus; }
+  { rank="same"; processUnitBTransaction; zookeeperState; }
+
+  invisNodeMin -> zookeeperStatus [style="invis"]
+  zookeeperStatus -> zookeeperState [style="invis"]
+  zookeeperState -> invisNodeMax [style="invis"]
+  beginDistributed -> {zookeeperStatus, zookeeperState} [dir=both color="blue"]
+  beginDistributed -> processUnitATransaction
+  processUnitATransaction -> {zookeeperStatus, zookeeperState} [dir=both color="blue"]
+  processUnitATransaction -> processUnitBTransaction
+  processUnitBTransaction -> {zookeeperStatus, zookeeperState} [dir=both color="blue"]
+  processUnitBTransaction -> processUnitCTransaction
+  processUnitCTransaction -> {zookeeperStatus, zookeeperState} [dir=both color="blue"]
+}
