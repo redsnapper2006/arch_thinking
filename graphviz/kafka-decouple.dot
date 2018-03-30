@@ -18,9 +18,9 @@ digraph kafka_decouple {
 
   user -> restApiServiceA [color="green"]
   restApiServiceA -> kafkaTopicA [color="blue"]
-  kafkaTopicA -> {fileLogA, dbStorageA, processUnitA} [color="green"]
+  kafkaTopicA:e -> {fileLogA:w, dbStorageA:w, processUnitA:w} [color="green"]
   processUnitA -> kafkaTopicB [color="blue"]
-  kafkaTopicB -> {fileLogB, dbStorageB, processUnitB} [color="green"]
+  kafkaTopicB:e -> {fileLogB:w, dbStorageB:w, processUnitB:w} [color="green"]
   processUnitB -> response [color="blue"]
   response -> processUnitX [color="green"]
   processUnitX -> kafkaTopicX [color="blue"]
