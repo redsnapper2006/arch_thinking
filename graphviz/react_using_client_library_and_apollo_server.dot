@@ -1,0 +1,22 @@
+digraph react_client_library_apollo_server {
+  rankdir=LR
+
+  reactClient [shape=box label="React Client\n(Relay, Apollo Client,\ngraphql-request)"]
+  apolloGraphQLServer [shape=box label="Apollo\nGraphQL\nServer"]
+  drivers [shape=folder label="Drivers"]
+
+  subgraph cluster1 {
+    style=dotted
+    rdbms [shape=cylinder label="RDBMS"]
+    mongodb [shape=cylinder label="MongoDB"]
+    elastic [shape=cylinder label="ElasticSearch"]
+  }
+
+
+
+  reactClient -> apolloGraphQLServer
+  apolloGraphQLServer -> drivers
+  drivers -> rdbms
+  drivers -> mongodb
+  drivers -> elastic
+}

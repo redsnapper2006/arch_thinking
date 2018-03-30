@@ -1,0 +1,35 @@
+digraph engine_graphql_server_library {
+  rankdir=LR
+
+  subgraph cluster0 {
+    style=dotted
+    graphQL [shape=box label="GraphQL"]
+    transform [shape=box label="Transform"]
+    load [shape=box label="Load"]
+  }
+
+  subgraph cluster1 {
+    style=dotted
+    rdbms [shape=cylinder label="RDBMS"]
+    mongodb [shape=cylinder label="MongoDB"]
+    elastic [shape=cylinder label="ElasticSearch"]
+  }
+
+  react [shape=box label="React"]
+  expressjs [shape=box label="Express.js"]
+
+  drivers [shape=folder label="Drivers"]
+
+  simpleQuery [shape=note label="for simple query, can use\nexpress-graphql directly\nbypass engine"]
+
+  react -> expressjs
+  expressjs -> graphQL
+  graphQL -> transform [constraint=false]
+  transform -> load [constraint=false]
+  graphQL -> drivers
+  drivers -> rdbms
+  drivers -> mongodb
+  drivers -> elastic
+  simpleQuery -> graphQL [style=dashed dir=both arrowtail="none" arrowhead="none" label="gql" minlen=3]
+  { rank="same"; simpleQuery; expressjs; }
+}
