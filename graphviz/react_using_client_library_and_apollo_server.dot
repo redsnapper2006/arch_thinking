@@ -12,8 +12,6 @@ digraph react_client_library_apollo_server {
     elastic [shape=cylinder label="ElasticSearch"]
   }
 
-
-
   reactClient -> apolloGraphQLServer
   apolloGraphQLServer -> drivers
   drivers -> rdbms
