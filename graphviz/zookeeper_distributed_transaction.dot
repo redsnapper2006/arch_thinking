@@ -1,6 +1,7 @@
 digraph zookeeper_distributed_transaction {
   rankdir=LR
   overlap=false
+  note [shape=note label="Status:\nNew\nInProgress\nSuccess\nFailure\nRetrying\nCommiting\nRollback"]
   invisNodeMin [style="invis" group=g0]
   invisNodeMax [style="invis" group=g0]
   zookeeperStatus [shape=cylinder label="ZooKeeper\nStatus" group=g0]
