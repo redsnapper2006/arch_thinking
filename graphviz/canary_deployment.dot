@@ -1,0 +1,33 @@
+digraph canary_deployemtn {
+  rankdir=TB
+
+  regular_ui_regular_api [shape=box label="URL: portal.cmas.ibm.com\nRegular Node.js SDK\nCall Regular API\nCMD: npm build"]
+  regular_ui_canary_api [shape=box label="URL: canary1.portal.cmas.ibm.com\nRegular Node.js SDK\nCall Canary API\nCMD: export CANARY=/canary; npm build"]
+  canary_ui_regular_api [shape=box label="URL: canary2.portal.cmas.ibm.com\nCanary Node.js SDK\nCall Regular API\nCMD: npm build" style=filled, color=dodgerblue1]
+  canary_ui_canary_api [shape=box label="URL: canary3.portal.cmas.ibm.com\nCanary Node.js SDK\nCall Canary API\nCMD: export CANARY=/canary; npm build" style=filled, color=dodgerblue1]
+
+  ingress [shape=box label="Ingress\nRegular URL: /api/cod/\nCanary URL: /canary/api/cod/" style=filled, color=darkorange1]
+
+  regular_ui_regular_api -> ingress
+  regular_ui_canary_api -> ingress [style=dashed color=green]
+  canary_ui_regular_api -> ingress
+  canary_ui_canary_api -> ingress [style=dashed color=green]
+
+  regular_svc [shape=box label="Regular SVC"]
+  regular_pod1 [shape=circle label="Regular POD1"]
+  regular_pod2 [shape=circle label="Regular POD2"]
+  regular_pod3 [shape=circle label="Regular POD3"]
+
+  regular_svc -> regular_pod1
+  regular_svc -> regular_pod2
+  regular_svc -> regular_pod3
+
+  canary_svc [shape=box label="Canary SVC" style=filled, color=chartreuse4]
+  canary_pod1 [shape=circle label="Canary POD1" style=filled, color=chartreuse4]
+
+  canary_svc -> canary_pod1 [style=dashed color=green]
+
+  ingress -> regular_svc
+  ingress -> canary_svc [style=dashed color=green]
+
+}
